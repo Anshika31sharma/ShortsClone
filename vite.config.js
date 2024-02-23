@@ -1,7 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import React from 'react';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-})
+export default {
+  jsx: 'react', // Make sure this line is present
+  alias: {
+    'react-swipeable-views': 'react-swipeable-views/lib/index.js',
+  },
+  // other configuration options...
+}
+

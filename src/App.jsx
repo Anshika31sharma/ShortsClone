@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import Video from './Video';
 
@@ -30,6 +31,7 @@ const App = () => {
   ];
 
   const [videos, setVideos] = useState(videosData);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleLikeClick = (videoId) => {
     setVideos((prevVideos) =>
@@ -40,7 +42,8 @@ const App = () => {
   };
 
   const handleVideoEnd = (index) => {
-    // Scroll to the next video when the current one ends
+    setActiveIndex(index + 1);
+
     if (index + 1 < videos.length) {
       videoRefs.current[index + 1].current.scrollIntoView({ behavior: 'smooth', inline: 'center' });
     }
@@ -53,16 +56,28 @@ const App = () => {
       window.requestAnimationFrame(() => {
         const activeIndex = Math.floor(window.scrollX / window.innerWidth);
         if (activeIndex < videos.length) {
+          setActiveIndex(activeIndex); // Update activeIndex based on scroll position
           videoRefs.current[activeIndex].current.scrollIntoView({ behavior: 'smooth', inline: 'center' });
         }
       });
     };
 
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowRight' && activeIndex < videos.length - 1) {
+        setActiveIndex(activeIndex + 1);
+      } else if (event.key === 'ArrowLeft' && activeIndex > 0) {
+        setActiveIndex(activeIndex - 1);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [videos]);
+  }, [videos, activeIndex]);
 
   return (
     <div className="App  overflow-x-auto snap-type-mandatory">
