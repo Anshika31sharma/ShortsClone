@@ -1,38 +1,23 @@
 // Video.jsx
 import React, { useRef, useState, useEffect } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import YouTube from 'react-youtube';
-import { useSwipeable } from 'react-swipeable';
+import { AiFillHeart, AiOutlineHeart, AiOutlineShareAlt, AiOutlineComment } from 'react-icons/ai';
 
 const Video = React.forwardRef(({ url, title, liked, onLikeClick, onVideoEnd }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+
+  // Assuming you're maintaining the same dimensions as before
+  const videoHeight = "560"; // Height in pixels
+  const videoWidth = "315"; // Width in pixels
 
   const opts = {
-    height: '700',
-    width: '100%',
+    height: videoHeight, 
+    width: videoWidth,
     playerVars: {
       autoplay: isPlaying ? 1 : 0,
     },
   };
-
-  const handlePlay = () => {
-    setIsPlaying(true);
-  };
-
-  const handlePause = () => {
-    setIsPlaying(false);
-  };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedUp: () => {
-      // Handle swipe up event (move to the next video, for example)
-      onVideoEnd();
-    },
-    onSwipedDown: () => {
-      // Handle swipe down event (move to the previous video, for example)
-      // You might need to implement logic to go to the previous video
-    },
-  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -59,18 +44,24 @@ const Video = React.forwardRef(({ url, title, liked, onLikeClick, onVideoEnd }, 
   }, [ref]);
 
   return (
-    <div ref={ref} className="relative mb-6 overflow-hidden bg-black rounded-md mx-auto sm:w-2/3 lg:w-1/2 xl:w-1/3 scroll-snap-align-start" {...swipeHandlers}>
-      <div className="w-full h-auto" style={{ scrollSnapAlign: 'start' }}>
-        <YouTube videoId={url} className="w-full h-auto" opts={opts} onPlay={handlePlay} onPause={handlePause} onEnd={onVideoEnd} />
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white flex justify-between">
-        <p className="text-sm truncate">{title}</p>
-        <button
-          className={`text-2xl text-red-500 ${liked ? 'text-red-500' : 'text-white'}`}
-          onClick={onLikeClick}
-        >
-          {liked ? <AiFillHeart /> : <AiOutlineHeart />}
-        </button>
+    <div
+      ref={ref}
+      className="videoSection flex justify-center items-center mt-13 pb-0 h-[calc(100vh-70px)] scroll-snap-align-start relative"
+      style={{ scrollSnapAlign: 'start', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+    >
+      <div className="relative" style={{ width: `${videoWidth}px`, height: `${videoHeight}px` }}>
+        <YouTube videoId={url} opts={opts} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} onEnd={onVideoEnd} />
+        {showControls && (
+          <div className="absolute inset-0 flex justify-center items-center">
+            <div className="flex flex-col items-center space-y-4 ml-64 mt-36">
+              <button className={`text-4xl ${liked ? 'text-red-500' : 'text-white'}`} onClick={onLikeClick}>
+                {liked ? <AiFillHeart /> : <AiOutlineHeart />}
+              </button>
+              <button className="text-4xl text-white"><AiOutlineShareAlt /></button>
+              <button className="text-4xl text-white"><AiOutlineComment /></button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

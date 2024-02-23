@@ -56,7 +56,7 @@ const App = () => {
       window.requestAnimationFrame(() => {
         const activeIndex = Math.floor(window.scrollX / window.innerWidth);
         if (activeIndex < videos.length) {
-          setActiveIndex(activeIndex); // Update activeIndex based on scroll position
+          setActiveIndex(activeIndex);
           videoRefs.current[activeIndex].current.scrollIntoView({ behavior: 'smooth', inline: 'center' });
         }
       });
@@ -80,7 +80,8 @@ const App = () => {
   }, [videos, activeIndex]);
 
   return (
-    <div className="App  overflow-x-auto snap-type-mandatory">
+    <div className="App overflow-x-auto snap-type-mandatory">
+      
       {videos.map((video, index) => (
         <Video
           key={video.id}
