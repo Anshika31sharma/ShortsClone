@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-gray-900  p-4 flex justify-between items-center w-full relative">
+    <div className="navbar bg-gray-900  p-4 flex justify-between items-center w-full fixed">
       <div className="flex items-center">
         <div className="menu-icon text-white mr-4" onClick={toggleSidebar}>
           <AiOutlineMenu className="text-2xl" />
@@ -30,7 +30,7 @@ const Navbar = () => {
           YouTube
         </div>
       </div>
-      <div className="search-bar flex-grow mt-4 ml-2 lg:ml-20 lg:mt-0 flex items-center w-full">
+      <div className="search-bar flex-grow mt-4 lg:ml-20 lg:mt-0 flex items-center w-full">
         <input
           type="text"
           placeholder="Search"

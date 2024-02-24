@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import Video from "./Video";
-import Navbar from "./Navbar";
+import Video from "./Components/Video";
+import Navbar from "./Components/Navbar";
 
 
 const App = () => {
@@ -87,9 +87,8 @@ const App = () => {
   }, [videos, activeIndex]);
 
   return (
-    <div className="App overflow-x-auto  snap-type-mandatory lg:flex">
-    
-      <div className="lg:w-4/5 flex flex-col">
+    <div className="App overflow-x-auto snap-type-mandatory lg:flex">
+      <div className="w-full flex flex-col">
         <Navbar />
         {videos.map((video, index) => (
           <Video

@@ -15,8 +15,8 @@ const Video = React.forwardRef(
     const [showControls, setShowControls] = useState(true);
     const [player, setPlayer] = useState(null);
 
-    const videoHeight = "610"; // Height in pixels
-    const videoWidth = "315"; // Width in pixels
+    const videoHeight = "610";
+    const videoWidth = "315"; 
 
     const opts = {
       height: videoHeight,
@@ -64,7 +64,7 @@ const Video = React.forwardRef(
     return (
       <div
         ref={ref}
-        className="videoSection mt-2   relative ml-96"
+        className="videoSection mt-20  relative ml-auto mr-auto"
         style={{
           width: `${videoWidth}px`,
           height: `${videoHeight}px`,
