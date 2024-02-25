@@ -31,7 +31,7 @@ shorts-clone.vercel.app
 
 1. Clone the repository:
   
- -  git clone git@github.com:Anshika31sharma/ShortsClone.git
+-  git clone git@github.com:Anshika31sharma/ShortsClone.git
 
 2. Navigate to the project directory
 
