@@ -12,11 +12,11 @@ import {
 const Video = React.forwardRef(
   ({ url, title, liked, onLikeClick, onVideoEnd }, ref) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [showControls, setShowControls] = useState(false); 
+    const [showControls, setShowControls] = useState(false);
     const [player, setPlayer] = useState(null);
 
-    const videoHeight = 610;
-    const videoWidth = 315;
+    const videoHeight = "610";
+    const videoWidth = "315";
 
     const opts = {
       height: videoHeight,
@@ -50,6 +50,30 @@ const Video = React.forwardRef(
       };
     }, [ref]);
 
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry.isIntersecting && !isPlaying) {
+            setIsPlaying(true);
+          } else if (!entry.isIntersecting && isPlaying) {
+            setIsPlaying(false);
+          }
+        },
+        { threshold: 0.5 }
+      );
+
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+
+      return () => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      };
+    }, [url]);
+
     const toggleControls = () => {
       setShowControls(!showControls);
     };
@@ -67,49 +91,55 @@ const Video = React.forwardRef(
 
     return (
       <div
-        ref={ref}
-        className="videoSection mt-10  relative ml-auto mr-auto"
-        style={{
-          width: `${videoWidth}px`,
-          height: `${videoHeight}px`,
-        }}
-        onMouseEnter={() => setShowControls(true)}
-        onMouseLeave={() => setShowControls(false)}
-      >
-        <YouTube
-          videoId={url}
-          opts={opts}
-          onEnd={onVideoEnd}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onReady={onPlayerReady}
-        />
-        {showControls && (
-          <div className="absolute inset-0 flex flex-col justify-between items-center">
-            <div className="flex items-center space-x-2 mt-4">
-              <button
-                className={`text-4xl ${liked ? "text-red-500" : "text-white"}`}
-                onClick={onLikeClick}
-              >
-                {liked ? <AiFillHeart /> : <AiOutlineHeart />}
-              </button>
-              <button className="text-4xl text-white">
-                <AiOutlineShareAlt />
-              </button>
-              <button className="text-4xl text-white">
-                <AiOutlineComment />
-              </button>
-            </div>
-            <div className="flex items-center space-x-2 mb-4">
-              <button className="text-4xl text-white" onClick={togglePlay}>
-                {isPlaying ? <AiFillPauseCircle /> : <AiFillPlayCircle />}
-              </button>
-            </div>
+      ref={ref}
+      className="videoSection mt-10 relative ml-auto mr-auto"
+      style={{
+        position: "relative",
+        width: `${videoWidth}px`,
+        height: `${videoHeight}px`,
+      }}
+      onMouseEnter={() => setShowControls(true)}
+      onMouseLeave={() => setShowControls(false)}
+    >
+      <YouTube
+        videoId={url}
+        opts={opts}
+        onEnd={onVideoEnd}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onReady={onPlayerReady}
+      />
+      {showControls && (
+        <div className="absolute inset-0 flex justify-between items-center">
+          <div className="flex items-center ml-36">
+            <button
+              className="text-4xl text-white"
+              onClick={togglePlay}
+            >
+              {isPlaying ? <AiFillPauseCircle /> : <AiFillPlayCircle />}
+            </button>
           </div>
-        )}
-      </div>
-    );
-  }
+          <div className="flex flex-col items-end space-y-2">
+            <button
+              className={`text-4xl ${
+                liked ? "text-red-500" : "text-white"
+              }`}
+              onClick={onLikeClick}
+            >
+              {liked ? <AiFillHeart /> : <AiOutlineHeart />}
+            </button>
+            <button className="text-4xl text-white">
+              <AiOutlineShareAlt />
+            </button>
+            <button className="text-4xl text-white">
+              <AiOutlineComment />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 );
 
 export default Video;
