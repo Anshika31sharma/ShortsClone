@@ -87,23 +87,25 @@ const App = () => {
   }, [videos, activeIndex]);
 
   return (
-    <div className="App overflow-x-auto snap-type-mandatory lg:flex">
-      <div className="w-full flex flex-col">
-        <Navbar />
-        {videos.map((video, index) => (
-          <Video
-            key={video.id}
-            ref={videoRefs.current[index]}
-            url={video.url}
-            title={video.title}
-            liked={video.liked}
-            onLikeClick={() => handleLikeClick(video.id)}
-            onVideoEnd={() => handleVideoEnd(index)}
-          />
-        ))}
+    <div className="App">
+    <div className="w-full flex flex-col">
+      <Navbar />
+      <div className="shorts-container overflow-x-auto snap-type-mandatory lg:flex flex-col bg-gray-800">
+      {videos.map((video, index) => (
+        <Video
+          key={video.id}
+          ref={videoRefs.current[index]}
+          url={video.url}
+          title={video.title}
+          liked={video.liked}
+          onLikeClick={() => handleLikeClick(video.id)}
+          onVideoEnd={() => handleVideoEnd(index)}
+        />
+      ))}
       </div>
     </div>
-  );
-};
+  </div>
+  )
+      }
 
 export default App;

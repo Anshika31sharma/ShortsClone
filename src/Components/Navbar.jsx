@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-gray-900  p-4 flex justify-between items-center w-full fixed">
+    <div className="navbar bg-gray-900  p-4 flex justify-between overflow-hidden items-center w-full sticky">
       <div className="flex items-center">
         <div className="menu-icon text-white mr-4" onClick={toggleSidebar}>
           <AiOutlineMenu className="text-2xl" />

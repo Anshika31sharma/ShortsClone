@@ -12,11 +12,11 @@ import {
 const Video = React.forwardRef(
   ({ url, title, liked, onLikeClick, onVideoEnd }, ref) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [showControls, setShowControls] = useState(true);
+    const [showControls, setShowControls] = useState(false); 
     const [player, setPlayer] = useState(null);
 
-    const videoHeight = "610";
-    const videoWidth = "315"; 
+    const videoHeight = 610;
+    const videoWidth = 315;
 
     const opts = {
       height: videoHeight,
@@ -50,6 +50,10 @@ const Video = React.forwardRef(
       };
     }, [ref]);
 
+    const toggleControls = () => {
+      setShowControls(!showControls);
+    };
+
     const togglePlay = () => {
       if (player) {
         isPlaying ? player.pauseVideo() : player.playVideo();
@@ -64,11 +68,13 @@ const Video = React.forwardRef(
     return (
       <div
         ref={ref}
-        className="videoSection mt-20  relative ml-auto mr-auto"
+        className="videoSection mt-10  relative ml-auto mr-auto"
         style={{
           width: `${videoWidth}px`,
           height: `${videoHeight}px`,
         }}
+        onMouseEnter={() => setShowControls(true)}
+        onMouseLeave={() => setShowControls(false)}
       >
         <YouTube
           videoId={url}
@@ -80,7 +86,7 @@ const Video = React.forwardRef(
         />
         {showControls && (
           <div className="absolute inset-0 flex flex-col justify-between items-center">
-            <di className="flex items-center space-x-2 mt-4">
+            <div className="flex items-center space-x-2 mt-4">
               <button
                 className={`text-4xl ${liked ? "text-red-500" : "text-white"}`}
                 onClick={onLikeClick}
@@ -93,7 +99,7 @@ const Video = React.forwardRef(
               <button className="text-4xl text-white">
                 <AiOutlineComment />
               </button>
-            </di>
+            </div>
             <div className="flex items-center space-x-2 mb-4">
               <button className="text-4xl text-white" onClick={togglePlay}>
                 {isPlaying ? <AiFillPauseCircle /> : <AiFillPlayCircle />}
