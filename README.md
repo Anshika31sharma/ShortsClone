@@ -31,19 +31,19 @@ shorts-clone.vercel.app
 
 1. Clone the repository:
   
-   git clone git@github.com:Anshika31sharma/ShortsClone.git
+ -  git clone git@github.com:Anshika31sharma/ShortsClone.git
 
 2. Navigate to the project directory
 
-   cd youtube-shorts-clone
+ -  cd youtube-shorts-clone
 
 3. Install dependencies
 
-   npm install
+-   npm install
 
 4. Run the server
 
-   npm run dev
+ -  npm run dev
 
 
 ## Author
